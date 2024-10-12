@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the Number</title>
+    <!-- Bootstrap CSS link -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin-top: 50px;
+        }
+        .game-container {
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: center;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .btn-custom {
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container game-container">
+        <h1 class="mb-4">Guess the Number</h1>
+        <div class="form-group">
+            <input type="number" class="form-control" id="guessNumber" placeholder="Enter a number (1-10)">
+        </div>
+        <button class="btn btn-primary btn-custom" onclick="check()">Check</button>
+        <p id="result" class="mt-3"></p>
+        <p id="scr" class="font-weight-bold">Score: 10</p>
+        <button id="resetBtn" class="btn btn-success btn-custom" onclick="resetGame()" style="display:none;">Play Again</button>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        var g = document.getElementById('guessNumber');
+        var resul = document.getElementById('result');
+        var scr = document.getElementById('scr');
+        var score = 10;
+        var randomNumber = Math.floor(Math.random() * 10) + 1;
+
+        function check() {
+            var enterNumber = parseInt(g.value);
+            if (enterNumber < 1 || enterNumber > 10 || isNaN(enterNumber)) {
+                alert("Please enter a number between 1 and 10.");
+                return;
+            }
+
+            if (randomNumber === enterNumber) {
+                score += 1;
+                scr.textContent = "Score: " + score;
+                resul.textContent = "You guessed it right! The number was " + randomNumber;
+                resul.className = "text-success font-weight-bold";
+                alert("Congratulations, you win!");
+                document.getElementById('resetBtn').style.display = "block";
+            } else {
+                score -= 1;
+                scr.textContent = "Score: " + score;
+                resul.textContent = "Wrong guess, try again!";
+                resul.className = "text-danger";
+                if (score <= 0) {
+                    alert("Game Over! You've run out of points.");
+                    document.getElementById('resetBtn').style.display = "block";
+                }
+            }
+        }
+
+        function resetGame() {
+            score = 10;
+            randomNumber = Math.floor(Math.random() * 10) + 1;
+            scr.textContent = "Score: " + score;
+            resul.textContent = "";
+            g.value = "";
+            document.getElementById('resetBtn').style.display = "none";
+        }
+    </script>
+
+</body>
+</html>
